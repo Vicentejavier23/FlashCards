@@ -1,211 +1,399 @@
 :root {
-    --primary-color: #4361ee;
-    --secondary-color: #3f37c9;
-    --light-color: #f8f9fa;
-    --dark-color: #212529;
+  --primary-color: #4361ee;
+  --primary-dark: #3a56d4;
+  --secondary-color: #3f37c9;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  --text-color: #333;
+  --background-color: #f5f7fa;
+  --error-color: #e63946;
+  --success-color: #2a9d8f;
+  --focus-color: #4cc9f0;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f5f7fa;
-    color: var(--dark-color);
-    line-height: 1.6;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  font-size: 1rem;
 }
 
 .app-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
-    text-align: center;
-    margin-bottom: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 header h1 {
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+header p {
+  font-size: 1.2rem;
 }
 
 .actions-panel {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
 
 button {
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
-    border-radius: 8px;
-    padding: 0.8rem 1.5rem;
-    font-weight: 600;
-    font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  min-width: 120px;
+}
+
+button:focus {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
 }
 
 .primary-btn {
-    background-color: var(--primary-color);
-    color: white;
+  background-color: var(--primary-color);
+  color: white;
 }
 
-.primary-btn:hover {
-    background-color: var(--secondary-color);
-    transform: translateY(-2px);
+.primary-btn:hover, .primary-btn:focus {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
 }
 
 .secondary-btn {
-    background-color: white;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
+  background-color: white;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+}
+
+.secondary-btn:hover, .secondary-btn:focus {
+  background-color: #f0f0f0;
+}
+
+.danger-btn {
+  background-color: var(--error-color);
+  color: white;
+}
+
+.danger-btn:hover, .danger-btn:focus {
+  background-color: #d62839;
 }
 
 .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 100;
-    justify-content: center;
-    align-items: center;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal[aria-modal="true"] {
+  display: flex;
 }
 
 .modal-content {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 600px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .close {
-    float: right;
-    font-size: 1.5rem;
-    cursor: pointer;
+  float: right;
+  font-size: 1.5rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--dark-color);
+  padding: 0.5rem;
+}
+
+.close:hover, .close:focus {
+  color: var(--error-color);
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
 .form-group input,
-.form-group select {
-    width: 100%;
-    padding: 0.8rem;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--focus-color);
 }
 
 .deck-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .deck-card {
-    background-color: white;
-    border-radius: 10px;
-    padding: 1.5rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease;
-    border-left: 5px solid var(--primary-color);
+  background-color: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+  border-left: 5px solid var(--primary-color);
 }
 
 .deck-card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .deck-card h3 {
-    color: var(--primary-color);
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.deck-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.deck-meta span {
+  background-color: #f0f0f0;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
 }
 
 .deck-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
 #study-area {
-    margin-top: 2rem;
+  margin-top: 2rem;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .flashcard-container {
-    perspective: 1000px;
-    margin-bottom: 2rem;
+  perspective: 1000px;
+  margin-bottom: 2rem;
 }
 
 .flashcard {
-    width: 100%;
-    max-width: 600px;
-    min-height: 300px;
-    margin: 0 auto;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.6s;
-    cursor: pointer;
+  width: 100%;
+  max-width: 600px;
+  min-height: 300px;
+  margin: 0 auto;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  cursor: pointer;
+}
+
+.flashcard.flipped {
+  transform: rotateY(180deg);
+}
+
+.flashcard:focus {
+  outline: 3px solid var(--focus-color);
 }
 
 .flashcard .front,
 .flashcard .back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    background-color: white;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  background-color: white;
 }
 
 .flashcard .back {
-    transform: rotateY(180deg);
-    background-color: #f8f9fa;
+  transform: rotateY(180deg);
+  background-color: #f8f9fa;
+}
+
+.flashcard p {
+  font-size: 1.5rem;
+  text-align: center;
+  word-break: break-word;
 }
 
 .navigation-controls {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.nav-btn, .action-btn {
+  padding: 0.8rem 1.2rem;
+}
+
+.action-btn {
+  min-width: auto;
 }
 
 .hidden {
-    display: none;
+  display: none;
+}
+
+/* Estilos para la lista de cartas */
+#cards-list-container {
+  margin-bottom: 2rem;
+}
+
+.card-item {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.card-item p {
+  margin-bottom: 0.5rem;
+}
+
+.card-item .card-front {
+  font-weight: bold;
+}
+
+.card-item .delete-card {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--error-color);
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+/* Accesibilidad */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+[aria-hidden="true"] {
+  display: none;
+}
+
+.accessibility-statement {
+  font-size: 0.8rem;
+  text-align: center;
+  margin-top: 1rem;
+  color: #666;
+}
+
+/* Contraste mejorado para accesibilidad */
+a, button, input, select, textarea {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .deck-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .flashcard {
-        min-height: 250px;
-    }
+  .app-container {
+    padding: 1rem;
+  }
+  
+  .deck-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flashcard {
+    min-height: 250px;
+  }
+  
+  .actions-panel {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .navigation-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
