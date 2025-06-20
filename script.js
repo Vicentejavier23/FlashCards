@@ -110,20 +110,48 @@ class FlashcardsApp {
     // Gestión de cartas
     this.elements.btnAddCard.addEventListener("click", () => this.addNewCard());
     this.elements.btnSaveCards.addEventListener("click", () => this.saveCards());
-    this.elements.btnCancelEditCards.addEventListener("click", () => this.closeAllModals());
+    this.elements.btnCancelEditCards.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (this.editingCardIndex !== null) {
+        this.showAddCardSection();
+      } else {
+        this.closeAllModals();
+      }
+    });
     this.elements.btnUpdateCard.addEventListener("click", () => this.updateCard());
-    this.elements.btnCancelEditCard.addEventListener("click", () => this.showAddCardSection());
+    this.elements.btnCancelEditCard.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.showAddCardSection();
+    });
 
     // Cierre de modales
-    this.elements.btnCancelNew.addEventListener("click", () => this.closeAllModals());
-    this.elements.btnCancelEdit.addEventListener("click", () => this.closeAllModals());
-    this.elements.btnCloseChoose.addEventListener("click", () => this.closeAllModals());
-    this.elements.btnCloseManage.addEventListener("click", () => this.closeAllModals());
-    this.elements.btnCloseStudy.addEventListener("click", () => this.closeStudySession());
+    this.elements.btnCancelNew.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.closeAllModals();
+    });
+    this.elements.btnCancelEdit.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.closeAllModals();
+    });
+    this.elements.btnCloseChoose.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.closeAllModals();
+    });
+    this.elements.btnCloseManage.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.closeAllModals();
+    });
+    this.elements.btnCloseStudy.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.closeStudySession();
+    });
 
     // Botones de cierre (X)
     this.elements.closeButtons.forEach(button => {
-      button.addEventListener("click", () => this.closeAllModals());
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        this.closeAllModals();
+      });
     });
 
     // Filtros
