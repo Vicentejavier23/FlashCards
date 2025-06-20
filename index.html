@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>📚 Flashcards App</h1>
+            <p>Aprende y crea tus mazos de estudio</p>
+        </header>
+
+        <main>
+            <div class="actions-panel">
+                <button id="btn-new-deck" class="primary-btn">➕ Nuevo Deck</button>
+                <button id="btn-study" class="primary-btn">📖 Estudiar</button>
+                <button id="btn-manage" class="secondary-btn">⚙️ Mis Decks</button>
+            </div>
+
+            <!-- Modal: Nuevo Deck -->
+            <div id="modal-new-deck" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Crear Nuevo Deck</h2>
+                    <div class="form-group">
+                        <label for="deck-name">Nombre del deck:</label>
+                        <input type="text" id="deck-name" placeholder="Ej: JavaScript Básico">
+                    </div>
+                    <div class="form-group">
+                        <label for="deck-category">Categoría:</label>
+                        <select id="deck-category">
+                            <option value="programming">Programación</option>
+                            <option value="science">Ciencia</option>
+                            <option value="history">Historia</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button id="btn-cancel-new" class="secondary-btn">← Volver</button>
+                        <button id="btn-create-deck" class="primary-btn">Crear</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal: Mis Decks -->
+            <div id="modal-manage-decks" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Mis Decks</h2>
+                    <div class="deck-filters">
+                        <select id="manage-filter-category">
+                            <option value="all">Todas las categorías</option>
+                            <option value="programming">Programación</option>
+                            <option value="science">Ciencia</option>
+                        </select>
+                        <input type="text" id="manage-search-deck" placeholder="Buscar deck...">
+                    </div>
+                    <div id="manage-deck-list" class="deck-grid"></div>
+                    <div class="modal-footer">
+                        <button id="btn-close-manage" class="secondary-btn">← Volver</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Área de Estudio -->
+            <div id="study-area" class="hidden">
+                <div class="study-header">
+                    <h2 id="current-deck-name">Deck: Programación</h2>
+                    <div class="progress-container">
+                        <span id="card-counter">1/10</span>
+                        <progress id="study-progress" value="10" max="100"></progress>
+                    </div>
+                </div>
+                <div class="flashcard-container">
+                    <div class="flashcard" onclick="app.flipCurrentCard()">
+                        <div class="front">
+                            <p id="card-front">¿Qué es HTML?</p>
+                        </div>
+                        <div class="back">
+                            <p id="card-back">Lenguaje de marcado para crear páginas web</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation-controls">
+                    <button id="btn-prev" class="nav-btn">← Anterior</button>
+                    <div class="card-actions">
+                        <button id="btn-flip" class="action-btn">🔄 Voltear</button>
+                    </div>
+                    <button id="btn-next" class="nav-btn">Siguiente →</button>
+                </div>
+                <div class="study-footer">
+                    <button id="btn-close-study" class="secondary-btn">← Volver al menú</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2023 Flashcards App</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
