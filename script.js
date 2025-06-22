@@ -325,6 +325,40 @@ class FlashcardsApp {
         this.showModal('modal-manage-decks');
     }
 
+    renderManageDecksList() {
+        if (!this.elements.manageDecksList) return;
+
+        this.elements.manageDecksList.innerHTML = '';  
+
+        this.decks.forEach(deck => {  
+            const deckElement = document.createElement('div');  
+            deckElement.className = 'deck';  
+            deckElement.innerHTML = `  
+                <h3>${deck.name}</h3>  
+                <span class="deck-category">${deck.category}</span>  
+                <div class="deck-info">  
+                    <span>${deck.cards.length} tarjetas</span>  
+                    <button class="btn primary btn-edit-deck" data-id="${deck.id}">Editar</button>  
+                    <button class="btn danger btn-delete-deck" data-id="${deck.id}">Eliminar</button>  
+                </div>  
+            `;  
+
+            this.elements.manageDecksList.appendChild(deckElement);  
+
+            this.safeAddEventListener(  
+                deckElement.querySelector('.btn-edit-deck'),  
+                'click',  
+                (e) => this.showEditDeckModal(e.target.dataset.id)  
+            );  
+
+            this.safeAddEventListener(  
+                deckElement.querySelector('.btn-delete-deck'),  
+                'click',  
+                (e) => this.confirmDeleteDeck(e.target.dataset.id)  
+            );  
+        });
+    }
+
     /* ==================== MANEJO DE TARJETAS ==================== */
     showCardsView(deckId) {
         const deck = this.decks.find(d => d.id === deckId);
@@ -434,7 +468,7 @@ class FlashcardsApp {
             this.editingCardsDeck.cards[this.editingCardIndex] = { front, back };  
             this.saveDecksToLocalStorage();  
             this.renderCards();  
-            this.cancelEditCard();  
+            this.cancelEditCard();
         }
     }
 
@@ -517,4 +551,4 @@ class FlashcardsApp {
 // Inicializar la aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     window.flashcardsApp = new FlashcardsApp();
-}) 
+});
