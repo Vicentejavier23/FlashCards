@@ -437,10 +437,9 @@ class FlashcardsApp {
             this.elements.newCardBack.value = '';  
 
             // Enfocar el primer campo  
-             
-        this.elements.editCardFront.focus();
-    }
-} 
+            this.elements.newCardFront.focus(); // Cambiado para enfocar el campo correcto
+        }
+    } // Cierre de la función addCard
 
     updateCard() {
         if (this.editingCardIndex === null || !this.editingCardsDeck) return;
@@ -464,72 +463,104 @@ class FlashcardsApp {
         this.elements.editCardBack.value = '';  
 
         // Mostrar formulario de añadir  
-        document.getElementById('add-card-form').style.display = 'block';  
-        document.getElementById('edit-card-form').style.display = 'none';  
+document.getElementById('add-card-form').style.display = 'block';
+document.getElementById('edit-card-form').style.display = 'none';
 
-        // Enfocar el primer campo  
-        this.elements.newCardFront.focus();
-    }
+// Enfocar el primer campo  
+this.elements.newCardFront.focus();
+}
 
-    deleteCard(index) {
-        if (!this.editingCardsDeck || index < 0 || index >= this.editingCardsDeck.cards.length) return;
+editCard(index) {
+    if (!this.editingCardsDeck || index < 0 || index >= this.editingCardsDeck.cards.length) return;
 
-        if (confirm('¿Estás seguro de que quieres eliminar esta tarjeta?')) {  
-            this.editingCardsDeck.cards.splice(index, 1);  
-            this.saveDecksToLocalStorage();  
-            this.renderCards();  
+    this.editingCardIndex = index;
+    const card = this.editingCardsDeck.cards[index];
+    
+    // Llenar formulario de edición
+    this.elements.editCardFront.value = card.front;
+    this.elements.editCardBack.value = card.back;
+    
+    // Mostrar formulario de edición y ocultar el de añadir
+    document.getElementById('add-card-form').style.display = 'none';
+    document.getElementById('edit-card-form').style.display = 'block';
+    
+    // Enfocar el primer campo
+    this.elements.editCardFront.focus();
+}
 
-            // Si estábamos editando esta tarjeta, cancelar la edición  
-            if (this.editingCardIndex === index) {  
-                this.cancelEditCard();  
-            }  
-        }
-    }
+deleteCard(index) {
+    if (!this.editingCardsDeck || index < 0 || index >= this.editingCardsDeck.cards.length) return;
 
-    /* ==================== MODO ESTUDIO ==================== */
-    startStudyingDeck(deckId) {
-        const deck = this.decks.find(d => d.id === deckId);
-        if (!deck || deck.cards.length === 0) return;
+    if (confirm('¿Estás seguro de que quieres eliminar esta tarjeta?')) {  
+        this.editingCardsDeck.cards.splice(index, 1);  
+        this.saveDecksToLocalStorage();  
+        this.renderCards();  
 
-        this.currentDeck = deck;  
-        this.currentCardIndex = 0;  
-        this.isFlipped = false;  
-        this.showCard();  
-        this.showView('study-view');
-    }
-
-    showCard() {
-        if (!this.currentDeck || this.currentCardIndex < 0 || this.currentCardIndex >= this.currentDeck.cards.length) return;
-
-        const card = this.currentDeck.cards[this.currentCardIndex];  
-        this.elements.flashcardFront.textContent = card.front;  
-        this.elements.flashcardBack.textContent = card.back;  
-
-        // Asegurarse de que la tarjeta no esté volteada al mostrar una nueva  
-        if (this.isFlipped) {  
-            this.elements.flashcardElement.classList.remove('flipped');  
-            this.isFlipped = false;  
-        }
-    }
-
-    flipCard() {
-        this.elements.flashcardElement.classList.toggle('flipped');
-        this.isFlipped = !this.isFlipped;
-    }
-
-    nextCard() {
-        if (!this.currentDeck) return;
-
-        // Avanzar al siguiente índice  
-        this.currentCardIndex++;  
-
-        // Si llegamos al final, volver al inicio  
-        if (this.currentCardIndex >= this.currentDeck.cards.length) {  
-            this.currentCardIndex = 0;  
+        // Si estábamos editando esta tarjeta, cancelar la edición  
+        if (this.editingCardIndex === index) {  
+            this.cancelEditCard();  
         }  
-
-        this.showCard();
     }
+}
+
+/* ==================== MODO ESTUDIO ==================== */
+startStudyingDeck(deckId) {
+    const deck = this.decks.find(d => d.id === deckId);
+    if (!deck || deck.cards.length === 0) return;
+
+    this.currentDeck = deck;  
+    this.currentCardIndex = 0;  
+    this.isFlipped = false;  
+    this.showCard();  
+    this.showView('study-view');
+}
+
+showCard() {
+    if (!this.currentDeck || this.currentCardIndex < 0 || this.currentCardIndex >= this.currentDeck.cards.length) return;
+
+    const card = this.currentDeck.cards[this.currentCardIndex];  
+    this.elements.flashcardFront.textContent = card.front;  
+    this.elements.flashcardBack.textContent = card.back;  
+
+    // Asegurarse de que la tarjeta no esté volteada al mostrar una nueva  
+    if (this.isFlipped) {  
+        this.elements.flashcardElement.classList.remove('flipped');  
+        this.isFlipped = false;  
+    }
+}
+
+flipCard() {
+    this.elements.flashcardElement.classList.toggle('flipped');
+    this.isFlipped = !this.isFlipped;
+}
+
+nextCard() {
+    if (!this.currentDeck) return;
+
+    // Avanzar al siguiente índice  
+    this.currentCardIndex++;  
+
+    // Si llegamos al final, volver al inicio  
+    if (this.currentCardIndex >= this.currentDeck.cards.length) {  
+        this.currentCardIndex = 0;  
+    }  
+
+    this.showCard();
+}
+
+prevCard() {
+    if (!this.currentDeck) return;
+
+    // Retroceder al índice anterior
+    this.currentCardIndex--;
+    
+    // Si estamos antes del inicio, ir a la última tarjeta
+    if (this.currentCardIndex < 0) {
+        this.currentCardIndex = this.currentDeck.cards.length - 1;
+    }
+    
+    this.showCard();
+}
 }
 
 // Inicializar la aplicación cuando el DOM esté listo
