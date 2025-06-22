@@ -196,7 +196,7 @@ class FlashcardsApp {
                 <span class="deck-category">${deck.category}</span>  
                 <div class="deck-info">  
                     <span><i class="fas fa-layer-group"></i> ${deck.cards.length} tarjetas</span>  
-                    <button class="btn small primary btn-study-deck" data-id="${deck.id}">Estudiar</button>  
+                    <button class="btn small primary btn-study-deck" data-id="${deck.id}">Estudiar (${deck.cards.length})</button>  
                 </div>  
             `;  
 
@@ -237,7 +237,7 @@ class FlashcardsApp {
                     <span class="deck-category">${deck.category}</span>  
                     <div class="deck-info">  
                         <span>${deck.cards.length} tarjetas</span>  
-                        <button class="btn primary btn-study-deck" data-id="${deck.id}">Estudiar</button>  
+                        <button class="btn primary btn-study-deck" data-id="${deck.id}">Estudiar (${deck.cards.length})</button>  
                     </div>  
                 `;  
 
@@ -252,53 +252,6 @@ class FlashcardsApp {
                     }  
                 );  
             }  
-        });
-    }
-
-    renderManageDecksList() {
-        if (!this.elements.manageDecksList) return;
-
-        this.elements.manageDecksList.innerHTML = '';  
-
-        this.decks.forEach(deck => {  
-            const deckElement = document.createElement('div');  
-            deckElement.className = 'deck';  
-            deckElement.innerHTML = `  
-                <h3>${deck.name}</h3>  
-                <span class="deck-category">${deck.category}</span>  
-                <div class="deck-info">  
-                    <span>${deck.cards.length} tarjetas</span>  
-                    <div class="deck-actions">  
-                        <button class="btn warning btn-edit-deck" data-id="${deck.id}">Editar</button>  
-                        <button class="btn danger btn-delete-deck" data-id="${deck.id}">Eliminar</button>  
-                        <button class="btn info btn-edit-cards" data-id="${deck.id}">Tarjetas</button>  
-                    </div>  
-                </div>  
-            `;  
-
-            this.elements.manageDecksList.appendChild(deckElement);  
-
-            // Agregar event listeners  
-            this.safeAddEventListener(  
-                deckElement.querySelector('.btn-edit-deck'),  
-                'click',  
-                (e) => this.showEditDeckModal(e.target.dataset.id)  
-            );  
-
-            this.safeAddEventListener(  
-                deckElement.querySelector('.btn-delete-deck'),  
-                'click',  
-                (e) => this.confirmDeleteDeck(e.target.dataset.id)  
-            );  
-
-            this.safeAddEventListener(  
-                deckElement.querySelector('.btn-edit-cards'),  
-                'click',  
-                (e) => {  
-                    this.showCardsView(e.target.dataset.id);  
-                    this.closeAllModals();  
-                }  
-            );  
         });
     }
 
@@ -475,3 +428,94 @@ class FlashcardsApp {
         if (this.editingCardIndex === null || !this.editingCardsDeck) return;
 
         const front = this.elements.editCardFront.value.trim();  
+        const back = this.elements.editCardBack.value.trim();  
+
+        if (front && back) {  
+            this.editingCardsDeck.cards[this.editingCardIndex] = { front, back };  
+            this.saveDecksToLocalStorage();  
+            this.renderCards();  
+            this.cancelEditCard();  
+        }
+    }
+
+    cancelEditCard() {
+        this.editingCardIndex = null;
+
+        // Limpiar formulario  
+        this.elements.editCardFront.value = '';  
+        this.elements.editCardBack.value = '';  
+
+        // Mostrar formulario de añadir  
+        document.getElementById('add-card-form').style.display = 'block';  
+        document.getElementById('edit-card-form').style.display = 'none';  
+
+        // Enfocar el primer campo  
+        this.elements.newCardFront.focus();
+    }
+
+    deleteCard(index) {
+        if (!this.editingCardsDeck || index < 0 || index >= this.editingCardsDeck.cards.length) return;
+
+        if (confirm('¿Estás seguro de que quieres eliminar esta tarjeta?')) {  
+            this.editingCardsDeck.cards.splice(index, 1);  
+            this.saveDecksToLocalStorage();  
+            this.renderCards();  
+
+            // Si estábamos editando esta tarjeta, cancelar la edición  
+            if (this.editingCardIndex === index) {  
+                this.cancelEditCard();  
+            }  
+        }
+    }
+
+    /* ==================== MODO ESTUDIO ==================== */
+    startStudyingDeck(deckId) {
+        const deck = this.decks.find(d => d.id === deckId);
+        if (!deck || deck.cards.length === 0) return;
+
+        this.currentDeck = deck;  
+        this.currentCardIndex = 0;  
+        this.isFlipped = false;  
+        this.showCard();  
+        this.showView('study-view');
+    }
+
+    showCard() {
+        if (!this.currentDeck || this.currentCardIndex < 0 || this.currentCardIndex >= this.currentDeck.cards.length) return;
+
+        const card = this.currentDeck.cards[this.currentCardIndex];  
+        this.elements.flashcardFront.textContent = card.front;  
+        this.elements.flashcardBack.textContent = card.back;  
+
+        // Asegurarse de que la tarjeta no esté volteada al mostrar una nueva  
+        if (this.isFlipped) {  
+            this.elements.flashcardElement.classList.remove('flipped');  
+            this.isFlipped = false;  
+        }
+    }
+
+    flipCard() {
+        this.elements.flashcardElement.classList.toggle('flipped');
+        this.isFlipped = !this.isFlipped;
+    }
+
+    nextCard() {
+        if (!this.currentDeck) return;
+
+        // Avanzar al siguiente índice  
+        this.currentCardIndex++;  
+
+        // Si llegamos al final, volver al inicio  
+        if (this.currentCardIndex >= this.currentDeck.cards.length) {  
+            this.currentCardIndex = 0;  
+        }  
+
+        this.showCard();
+    }
+}
+
+// Inicializar la aplicación cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    window.flashcardsApp = new FlashcardsApp();
+});
+ 
