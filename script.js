@@ -421,54 +421,102 @@ class FlashcardsApp {
         });
     }
 
-    addCard() {
+            addCard() {
         if (!this.editingCardsDeck) return;
 
-        const front = this.elements.newCardFront.value.trim();  
-        const back = this.elements.newCardBack.value.trim();  
+        const front = this.elements.newCardFront.value.trim();
+        const back = this.elements.newCardBack.value.trim();
 
-        if (front && back) {  
-            this.editingCardsDeck.cards.push({ front, back });  
-            this.saveDecksToLocalStorage();  
-            this.renderCards();  
-
-            // Limpiar formulario  
-            this.elements.newCardFront.value = '';  
-            this.elements.newCardBack.value = '';  
-
-            // Enfocar el primer campo  
-            this.elements.newCardFront.focus(); // Cambiado para enfocar el campo correcto
+        if (front && back) {
+            // Añadir la nueva tarjeta al deck actual
+            this.editingCardsDeck.cards.push({ front, back });
+            
+            // Guardar en localStorage
+            this.saveDecksToLocalStorage();
+            
+            // Actualizar la vista
+            this.renderCards();
+            
+            // Limpiar el formulario
+            this.elements.newCardFront.value = '';
+            this.elements.newCardBack.value = '';
+            
+            // Enfocar el campo de "frente" para nueva tarjeta
+            this.elements.newCardFront.focus();
+            
+            // Mostrar mensaje de éxito (opcional)
+            alert('Tarjeta añadida correctamente');
+        } else {
+            alert('Por favor completa ambos lados de la tarjeta');
         }
-    } // Cierre de la función addCard
+    }
+
+    editCard(index) {
+        if (!this.editingCardsDeck || index < 0 || index >= this.editingCardsDeck.cards.length) return;
+
+        // Guardar el índice de la tarjeta que estamos editando
+        this.editingCardIndex = index;
+        
+        // Obtener la tarjeta actual
+        const card = this.editingCardsDeck.cards[index];
+        
+        // Llenar el formulario de edición con los datos actuales
+        this.elements.editCardFront.value = card.front;
+        this.elements.editCardBack.value = card.back;
+        
+        // Cambiar a la vista de edición
+        document.getElementById('add-card-form').style.display = 'none';
+        document.getElementById('edit-card-form').style.display = 'block';
+        
+        // Enfocar el primer campo
+        this.elements.editCardFront.focus();
+    }
 
     updateCard() {
         if (this.editingCardIndex === null || !this.editingCardsDeck) return;
 
-        const front = this.elements.editCardFront.value.trim();  
-        const back = this.elements.editCardBack.value.trim();  
+        const front = this.elements.editCardFront.value.trim();
+        const back = this.elements.editCardBack.value.trim();
 
-        if (front && back) {  
-            this.editingCardsDeck.cards[this.editingCardIndex] = { front, back };  
-            this.saveDecksToLocalStorage();  
-            this.renderCards();  
-            this.cancelEditCard();  
+        if (front && back) {
+            // Actualizar la tarjeta
+            this.editingCardsDeck.cards[this.editingCardIndex] = { front, back };
+            
+            // Guardar cambios
+            this.saveDecksToLocalStorage();
+            
+            // Actualizar la vista
+            this.renderCards();
+            
+            // Volver al formulario de añadir
+            this.cancelEditCard();
+            
+            // Mostrar mensaje de éxito
+            alert('Tarjeta actualizada correctamente');
+        } else {
+            alert('Por favor completa ambos lados de la tarjeta');
         }
     }
 
     cancelEditCard() {
+        // Limpiar el índice de edición
         this.editingCardIndex = null;
+        
+        // Limpiar formularios
+        this.elements.editCardFront.value = '';
+        this.elements.editCardBack.value = '';
+        
+        // Cambiar a la vista de añadir
+        document.getElementById('add-card-form').style.display = 'block';
+        document.getElementById('edit-card-form').style.display = 'none';
+        
+        // Enfocar campo para nueva tarjeta
+        this.elements.newCardFront.focus();
+    }
 
-        // Limpiar formulario  
-        this.elements.editCardFront.value = '';  
-        this.elements.editCardBack.value = '';  
+)
 
-        // Mostrar formulario de añadir  
-document.getElementById('add-card-form').style.display = 'block';
-document.getElementById('edit-card-form').style.display = 'none';
 
-// Enfocar el primer campo  
-this.elements.newCardFront.focus();
-}
 
 editCard(index) {
     if (!this.editingCardsDeck || index < 0 || index >= this.editingCardsDeck.cards.length) return;
