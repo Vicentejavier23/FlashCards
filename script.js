@@ -611,7 +611,13 @@ prevCard() {
 }
 }
 
-// Inicializar la aplicación cuando el DOM esté listo
+// Inicialización
 document.addEventListener('DOMContentLoaded', () => {
-    window.flashcardsApp = new FlashcardsApp();
+    const app = new FlashcardsApp();
+    
+    // Asignar event listeners (si no lo estás haciendo en el constructor)
+    document.getElementById('btn-add-card').addEventListener('click', () => app.addCard());
+    document.getElementById('btn-update-card').addEventListener('click', () => app.updateCard());
+    document.getElementById('btn-cancel-edit-card').addEventListener('click', () => app.cancelEditCard());
 });
+ 
