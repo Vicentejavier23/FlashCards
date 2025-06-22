@@ -517,5 +517,4 @@ class FlashcardsApp {
 // Inicializar la aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     window.flashcardsApp = new FlashcardsApp();
-});
- 
+}) 
