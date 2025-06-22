@@ -239,10 +239,9 @@ class FlashcardsApp {
 
         if (name) {
             this.currentEditingDeck.name = name;
-            this.currentEditingDeck.category = category;
+            this.currentEditingDeck.category = category
             this.saveDecksToLocalStorage();
             this.renderDecks();
-            this.renderManageDecksList();
             this.closeAllModals();
             this.currentEditingDeck = null;
         }
@@ -258,7 +257,6 @@ class FlashcardsApp {
         this.decks = this.decks.filter(deck => deck.id !== deckId);
         this.saveDecksToLocalStorage();
         this.renderDecks();
-        this.renderManageDecksList();
         this.closeAllModals();
     }
 
@@ -484,7 +482,7 @@ class FlashcardsApp {
     showCard() {
         if (!this.currentDeck || this.currentCardIndex < 0 || this.currentCardIndex >= this.currentDeck.cards.length) return;
 
-               const card = this.currentDeck.cards[this.currentCardIndex];
+        const card = this.currentDeck.cards[this.currentCardIndex];
         this.elements.flashcardFront.textContent = card.front;
         this.elements.flashcardBack.textContent = card.back;
 
@@ -513,24 +511,9 @@ class FlashcardsApp {
 
         this.showCard();
     }
-
-    prevCard() {
-        if (!this.currentDeck) return;
-
-        // Retroceder al índice anterior
-        this.currentCardIndex--;
-
-        // Si estamos antes del inicio, ir a la última tarjeta
-        if (this.currentCardIndex < 0) {
-            this.currentCardIndex = this.currentDeck.cards.length - 1;
-        }
-
-        this.showCard();
-    }
 }
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
     const app = new FlashcardsApp();
 });
- 
