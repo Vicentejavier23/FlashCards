@@ -440,6 +440,7 @@ class FlashcardsApp {
              
         this.elements.editCardFront.focus();
     }
+} 
 
     updateCard() {
         if (this.editingCardIndex === null || !this.editingCardsDeck) return;
