@@ -1,200 +1,175 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Aplicación de tarjetas didácticas para mejorar tu aprendizaje">
-  <title>Flashcards Academy - Herramienta de aprendizaje accesible</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard App 2025</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-  <div class="app-container">
-    <header role="banner">
-      <h1>📚 Flashcards Academy</h1>
-      <p>Aprende y gestiona tus mazos de estudio</p>
-    </header>
-
-    <main role="main">
-      <div class="actions-panel">
-        <button id="btn-new-deck" class="primary-btn" aria-label="Crear nuevo mazo de estudio">➕ Nuevo Deck</button>
-        <button id="btn-study" class="primary-btn" aria-label="Estudiar con tus mazos">📖 Estudiar</button>
-        <button id="btn-manage" class="secondary-btn" aria-label="Gestionar tus mazos">⚙️ Mis Decks</button>
-      </div>
-
-      <!-- Modal: Nuevo Deck -->
-      <div id="modal-new-deck" class="modal" role="dialog" aria-labelledby="new-deck-title" aria-modal="true">
-        <div class="modal-content">
-          <button class="close" aria-label="Cerrar modal">&times;</button>
-          <h2 id="new-deck-title">Crear Nuevo Deck</h2>
-          <div class="form-group">
-            <label for="deck-name">Nombre del deck:</label>
-            <input type="text" id="deck-name" placeholder="Ej: JavaScript Avanzado" aria-required="true">
-          </div>
-          <div class="form-group">
-            <label for="deck-category">Categoría:</label>
-            <select id="deck-category" aria-label="Seleccionar categoría para el deck">
-              <option value="programming">Programación</option>
-              <option value="science">Ciencia</option>
-              <option value="history">Historia</option>
-              <option value="language">Idiomas</option>
-              <option value="other">Otro</option>
-            </select>
-          </div>
-          <div class="form-actions">
-            <button id="btn-cancel-new" class="secondary-btn" aria-label="Cancelar y volver">← Volver</button>
-            <button id="btn-create-deck" class="primary-btn" aria-label="Crear nuevo deck">Crear</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal: Editar Cartas -->
-      <div id="modal-edit-cards" class="modal" role="dialog" aria-labelledby="edit-cards-title" aria-modal="true">
-        <div class="modal-content">
-          <button class="close" aria-label="Cerrar modal">&times;</button>
-          <h2 id="edit-cards-title">Editar Cartas: <span id="editing-deck-name"></span></h2>
-          
-          <div id="cards-list-container">
-            <!-- Las cartas existentes se mostrarán aquí -->
-          </div>
-          
-          <div class="form-group">
-            <h3>Añadir nueva carta</h3>
-            <label for="new-card-front">Pregunta:</label>
-            <textarea id="new-card-front" rows="3" placeholder="Escribe la pregunta aquí" aria-required="true"></textarea>
-            
-            <label for="new-card-back">Respuesta:</label>
-            <textarea id="new-card-back" rows="3" placeholder="Escribe la respuesta aquí" aria-required="true"></textarea>
-            
-            <button id="btn-add-card" class="primary-btn" aria-label="Añadir nueva carta">➕ Añadir Carta</button>
-          </div>
-          
-          <div class="form-actions">
-            <button id="btn-save-cards" class="primary-btn" aria-label="Guardar cambios">💾 Guardar</button>
-            <button id="btn-cancel-edit-cards" class="secondary-btn" aria-label="Cancelar edición">← Volver</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal: Seleccionar Deck -->
-      <div id="modal-choose-deck" class="modal" role="dialog" aria-labelledby="choose-deck-title" aria-modal="true">
-        <div class="modal-content">
-          <button class="close" aria-label="Cerrar modal">&times;</button>
-          <h2 id="choose-deck-title">Selecciona un Deck</h2>
-          <div class="deck-filters">
-            <label for="filter-category" class="sr-only">Filtrar por categoría</label>
-            <select id="filter-category">
-              <option value="all">Todas las categorías</option>
-              <option value="programming">Programación</option>
-              <option value="science">Ciencia</option>
-              <option value="history">Historia</option>
-            </select>
-            
-            <label for="search-deck" class="sr-only">Buscar deck</label>
-            <input type="text" id="search-deck" placeholder="Buscar deck..." aria-label="Buscar deck por nombre">
-          </div>
-          <div id="deck-list" class="deck-grid" role="list" aria-label="Lista de mazos disponibles"></div>
-          <div class="modal-footer">
-            <button id="btn-close-choose" class="secondary-btn" aria-label="Cerrar y volver">← Volver</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal: Gestionar Decks -->
-      <div id="modal-manage-decks" class="modal" role="dialog" aria-labelledby="manage-decks-title" aria-modal="true">
-        <div class="modal-content">
-          <button class="close" aria-label="Cerrar modal">&times;</button>
-          <h2 id="manage-decks-title">Mis Decks</h2>
-          <div class="management-actions">
-            <button id="btn-add-new-deck" class="primary-btn" aria-label="Añadir nuevo mazo">➕ Nuevo Deck</button>
-          </div>
-          <div class="deck-filters">
-            <label for="manage-filter-category" class="sr-only">Filtrar por categoría</label>
-            <select id="manage-filter-category">
-              <option value="all">Todas las categorías</option>
-              <option value="programming">Programación</option>
-              <option value="science">Ciencia</option>
-              <option value="history">Historia</option>
-            </select>
-            
-            <label for="manage-search-deck" class="sr-only">Buscar deck</label>
-            <input type="text" id="manage-search-deck" placeholder="Buscar deck..." aria-label="Buscar mazos por nombre">
-          </div>
-          <div id="manage-deck-list" class="deck-grid" role="list" aria-label="Lista de tus mazos"></div>
-          <div class="modal-footer">
-            <button id="btn-close-manage" class="secondary-btn" aria-label="Cerrar y volver">← Volver</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal: Editar Deck -->
-      <div id="modal-edit-deck" class="modal" role="dialog" aria-labelledby="edit-deck-title" aria-modal="true">
-        <div class="modal-content">
-          <button class="close" aria-label="Cerrar modal">&times;</button>
-          <h2 id="edit-deck-title">Editar Deck</h2>
-          <div class="form-group">
-            <label for="edit-deck-name">Nombre:</label>
-            <input type="text" id="edit-deck-name" aria-required="true">
-          </div>
-          <div class="form-group">
-            <label for="edit-deck-category">Categoría:</label>
-            <select id="edit-deck-category" aria-label="Seleccionar categoría">
-              <option value="programming">Programación</option>
-              <option value="science">Ciencia</option>
-              <option value="history">Historia</option>
-              <option value="language">Idiomas</option>
-              <option value="other">Otro</option>
-            </select>
-          </div>
-          <div class="form-actions">
-            <button id="btn-edit-cards" class="primary-btn" aria-label="Editar cartas de este mazo">✏️ Editar Cartas</button>
-            <button id="btn-cancel-edit" class="secondary-btn" aria-label="Cancelar edición">← Volver</button>
-            <button id="btn-update-deck" class="primary-btn" aria-label="Guardar cambios">Guardar</button>
-            <button id="btn-delete-deck" class="danger-btn" aria-label="Eliminar este mazo">🗑️ Eliminar</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Área de Estudio -->
-      <div id="study-area" class="hidden" aria-live="polite">
-        <div class="study-header">
-          <h2 id="current-deck-name">Deck: Programación</h2>
-          <div class="progress-container">
-            <span id="card-counter">1/10</span>
-            <progress id="study-progress" value="10" max="100" aria-label="Progreso del estudio"></progress>
-          </div>
-        </div>
-        <div class="flashcard-container">
-          <div class="flashcard" tabindex="0" role="button" aria-pressed="false" aria-label="Tarjeta de estudio, haz clic o presiona espacio para voltear">
-            <div class="front">
-              <p id="card-front">¿Qué es HTML?</p>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo-container">
+                <h1><i class="fas fa-layer-group"></i> Flashcard App 2025</h1>
+                <p class="tagline">La mejor herramienta para aprender</p>
             </div>
-            <div class="back">
-              <p id="card-back">Lenguaje de marcado para crear páginas web</p>
+            <div class="actions">
+                <button id="btn-new-deck" class="btn primary">
+                    <i class="fas fa-plus"></i> Nuevo Deck
+                </button>
+                <button id="btn-study" class="btn success">
+                    <i class="fas fa-book"></i> Estudiar
+                </button>
+                <button id="btn-manage" class="btn info">
+                    <i class="fas fa-cog"></i> Gestionar
+                </button>
             </div>
-          </div>
-        </div>
-        <div class="navigation-controls">
-          <button id="btn-prev" class="nav-btn" aria-label="Carta anterior">← Anterior</button>
-          <div class="card-actions">
-            <button id="btn-difficult" class="action-btn" aria-label="Marcar como difícil">😞 Difícil</button>
-            <button id="btn-flip" class="action-btn" aria-label="Voltear la carta">🔄 Voltear</button>
-            <button id="btn-easy" class="action-btn" aria-label="Marcar como fácil">😊 Fácil</button>
-          </div>
-          <button id="btn-next" class="nav-btn" aria-label="Siguiente carta">Siguiente →</button>
-        </div>
-        <div class="study-footer">
-          <button id="btn-close-study" class="secondary-btn" aria-label="Terminar sesión de estudio">← Volver al menú</button>
-        </div>
-      </div>
-    </main>
+        </header>
+        <main class="app-main">
+            <!-- Vista principal de decks -->
+            <div id="decks-view" class="view active-view">
+                <h2>Tus Decks de Flashcards</h2>
+                <div id="decks-container" class="decks-grid"></div>
+            </div>
 
-    <footer role="contentinfo">
-      <p>© 2023 Flashcards Academy - Herramienta de aprendizaje accesible</p>
-      <p class="accessibility-statement">Esta aplicación ha sido diseñada siguiendo las pautas de accesibilidad WCAG 2.1 AA</p>
-    </footer>
-  </div>
-  <script src="script.js"></script>
+            <!-- Vista de estudio -->
+            <div id="study-view" class="view">
+                <div class="flashcard-container">
+                    <div class="flashcard">
+                        <div class="flashcard-content front"></div>
+                        <div class="flashcard-content back"></div>
+                    </div>
+                </div>
+                <div class="study-controls">
+                    <button id="btn-show-answer" class="btn primary">Mostrar Respuesta</button>
+                    <button id="btn-next-card" class="btn success">Siguiente</button>
+                    <button id="btn-back-study" class="btn secondary">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                </div>
+            </div>
+
+            <!-- Vista de gestión de tarjetas -->
+            <div id="cards-view" class="view">
+                <div class="cards-header">
+                    <h2 id="editing-deck-name"></h2>
+                    <button id="btn-back-cards" class="btn secondary">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                </div>
+
+                <div id="cards-list" class="cards-list"></div>
+
+                <div class="card-form-container">
+                    <div id="add-card-form" class="card-form">
+                        <h3><i class="fas fa-plus-circle"></i> Añadir Nueva Tarjeta</h3>
+                        <div class="form-group">
+                            <label for="new-card-front">Frente:</label>
+                            <textarea id="new-card-front" rows="3" placeholder="Pregunta o concepto"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-card-back">Reverso:</label>
+                            <textarea id="new-card-back" rows="3" placeholder="Respuesta o definición"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button id="btn-add-card" class="btn primary">Añadir Tarjeta</button>
+                        </div>
+                    </div>
+
+                    <div id="edit-card-form" class="card-form" style="display: none;">
+                        <h3><i class="fas fa-edit"></i> Editar Tarjeta</h3>
+                        <div class="form-group">
+                            <label for="edit-card-front">Frente:</label>
+                            <textarea id="edit-card-front" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-card-back">Reverso:</label>
+                            <textarea id="edit-card-back" rows="3"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button id="btn-update-card" class="btn success">Actualizar</button>
+                            <button id="btn-cancel-edit-card" class="btn secondary">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modales -->
+    <div id="modal-new-deck" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-layer-group"></i> Crear Nuevo Deck</h2>
+            <div class="form-group">
+                <label for="deck-name">Nombre del Deck:</label>
+                <input type="text" id="deck-name" placeholder="Ej: Vocabulario Español">
+            </div>
+            <div class="form-group">
+                <label for="deck-category">Categoría:</label>
+                <select id="deck-category">
+                    <option value="general">General</option>
+                    <option value="languages">Idiomas</option>
+                    <option value="science">Ciencia</option>
+                    <option value="history">Historia</option>
+                    <option value="math">Matemáticas</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button id="btn-save-deck" class="btn primary">Guardar Deck</button>
+                <button class="btn secondary close-modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-choose-deck" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-book"></i> Seleccionar Deck para Estudiar</h2>
+            <div id="study-decks-list" class="decks-list"></div>
+            <div class="modal-actions">
+                <button class="btn secondary close-modal">Volver</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-manage-decks" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-cog"></i> Gestionar Decks</h2>
+            <div id="manage-decks-list" class="decks-list"></div>
+            <div class="modal-actions">
+                <button class="btn secondary close-modal">Volver</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-edit-deck" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-edit"></i> Editar Deck</h2>
+            <div class="form-group">
+                <label for="edit-deck-name">Nombre:</label>
+                <input type="text" id="edit-deck-name">
+            </div>
+            <div class="form-group">
+                <label for="edit-deck-category">Categoría:</label>
+                <select id="edit-deck-category">
+                    <option value="general">General</option>
+                    <option value="languages">Idiomas</option>
+                    <option value="science">Ciencia</option>
+                    <option value="history">Historia</option>
+                    <option value="math">Matemáticas</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button id="btn-delete-deck" class="btn danger">Eliminar Deck</button>
+                <button id="btn-save-edit-deck" class="btn success">Guardar Cambios</button>
+                <button class="btn secondary close-modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
