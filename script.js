@@ -226,8 +226,7 @@ class FlashcardsApp {
         if (!deck) return;
 
         this.currentEditingDeck = deck;
-        this.elements.editDeckName.value = deck.name;
-        this.elements.editDeckCategory.value = deck.category;
+        this.elements.editDeckName.value = deck.name;                this.elements.editDeckCategory.value = deck.category;
         this.showModal('modal-edit-deck');
     }
 
@@ -239,7 +238,7 @@ class FlashcardsApp {
 
         if (name) {
             this.currentEditingDeck.name = name;
-            this.currentEditingDeck.category = category
+            this.currentEditingDeck.category = category;
             this.saveDecksToLocalStorage();
             this.renderDecks();
             this.closeAllModals();
@@ -517,3 +516,4 @@ class FlashcardsApp {
 document.addEventListener('DOMContentLoaded', () => {
     const app = new FlashcardsApp();
 });
+ 
