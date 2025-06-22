@@ -468,7 +468,7 @@ class FlashcardsApp {
             this.editingCardsDeck.cards[this.editingCardIndex] = { front, back };  
             this.saveDecksToLocalStorage();  
             this.renderCards();  
-            this.cancelEditCard();
+            this.cancelEditCard();  
         }
     }
 
