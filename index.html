@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcard App 2025</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="app-container">
@@ -27,13 +27,10 @@
             </div>
         </header>
         <main class="app-main">
-            <!-- Vista principal de decks -->
             <div id="decks-view" class="view active-view">
                 <h2>Tus Decks de Flashcards</h2>
                 <div id="decks-container" class="decks-grid"></div>
             </div>
-
-            <!-- Vista de estudio -->
             <div id="study-view" class="view">
                 <div class="flashcard-container">
                     <div class="flashcard">
@@ -49,8 +46,6 @@
                     </button>
                 </div>
             </div>
-
-            <!-- Vista de gestión de tarjetas -->
             <div id="cards-view" class="view">
                 <div class="cards-header">
                     <h2 id="editing-deck-name"></h2>
@@ -58,9 +53,7 @@
                         <i class="fas fa-arrow-left"></i> Volver
                     </button>
                 </div>
-
                 <div id="cards-list" class="cards-list"></div>
-
                 <div class="card-form-container">
                     <div id="add-card-form" class="card-form">
                         <h3><i class="fas fa-plus-circle"></i> Añadir Nueva Tarjeta</h3>
@@ -76,7 +69,6 @@
                             <button id="btn-add-card" class="btn primary">Añadir Tarjeta</button>
                         </div>
                     </div>
-
                     <div id="edit-card-form" class="card-form" style="display: none;">
                         <h3><i class="fas fa-edit"></i> Editar Tarjeta</h3>
                         <div class="form-group">
