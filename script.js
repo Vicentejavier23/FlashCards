@@ -53,7 +53,8 @@ class FlashcardsApp {
             flashcardFront: document.querySelector('.flashcard .front'),
             flashcardBack: document.querySelector('.flashcard .back'),
             flashcardElement: document.querySelector('.flashcard'),
-            closeModalButtons: document.querySelectorAll('.close-modal')
+            closeModalButtons: document.querySelectorAll('.close-modal'),
+            btnShowAddCardForm: document.getElementById('btn-show-add-card-form') // Nuevo botón
         };
     }
 
@@ -72,6 +73,7 @@ class FlashcardsApp {
         this.safeAddEventListener(this.elements.flashcardElement, 'click', () => this.flipCard());
         this.safeAddEventListener(this.elements.btnShowAnswer, 'click', () => this.flipCard());
         this.safeAddEventListener(this.elements.btnNextCard, 'click', () => this.nextCard());
+        this.safeAddEventListener(this.elements.btnShowAddCardForm, 'click', () => this.toggleAddCardForm()); // Evento para mostrar el formulario de agregar tarjeta
         this.elements.closeModalButtons.forEach(button => {
             this.safeAddEventListener(button, 'click', () => this.closeAllModals());
         });
@@ -91,6 +93,18 @@ class FlashcardsApp {
             console.warn(`Elemento no encontrado para event listener: ${event}`);
         }
     }
+
+    toggleAddCardForm() {
+        const addCardForm = document.getElementById('add-card-form');
+        if (addCardForm.style.display === 'none' || addCardForm.style.display === '') {
+            addCardForm.style.display = 'block';
+        } else {
+            addCardForm.style.display = 'none';
+        }
+    }
+
+
+
 
     showView(viewId) {
         document.querySelectorAll('.view').forEach(view => {
