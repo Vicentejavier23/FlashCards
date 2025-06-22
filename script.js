@@ -437,24 +437,7 @@ class FlashcardsApp {
             this.elements.newCardBack.value = '';  
 
             // Enfocar el primer campo  
-            this.elements.newCardFront.focus();  
-        }
-    }
-
-    editCard(index) {
-        if (!this.editingCardsDeck || index < 0 || index >= this.editingCardsDeck.cards.length) return;
-
-        this.editingCardIndex = index;  
-        const card = this.editingCardsDeck.cards[index];  
-
-        this.elements.editCardFront.value = card.front;  
-        this.elements.editCardBack.value = card.back;  
-
-        // Mostrar formulario de edición  
-        document.getElementById('add-card-form').style.display = 'none';  
-        document.getElementById('edit-card-form').style.display = 'block';  
-
-        // Enfocar el primer campo  
+             
         this.elements.editCardFront.focus();
     }
 
