@@ -32,6 +32,12 @@
                 <div id="decks-container" class="decks-grid"></div>
             </div>
             <div id="study-view" class="view">
+                <div class="study-header">
+                    <h2 id="study-deck-name"></h2>
+                    <div class="study-progress">
+                        <span id="current-card-count">1</span> / <span id="total-card-count">0</span>
+                    </div>
+                </div>
                 <div class="flashcard-container">
                     <div class="flashcard">
                         <div class="flashcard-content front"></div>
@@ -39,8 +45,12 @@
                     </div>
                 </div>
                 <div class="study-controls">
-                    <button id="btn-show-answer" class="btn primary">Mostrar Respuesta</button>
-                    <button id="btn-next-card" class="btn success">Siguiente <i class="fas fa-arrow-right"></i></button>
+                    <button id="btn-show-answer" class="btn primary">
+                        <i class="fas fa-eye"></i> Mostrar Respuesta
+                    </button>
+                    <button id="btn-next-card" class="btn success">
+                        <i class="fas fa-arrow-right"></i> Siguiente
+                    </button>
                     <button id="btn-back-study" class="btn secondary">
                         <i class="fas fa-arrow-left"></i> Volver
                     </button>
@@ -71,7 +81,9 @@
                             <textarea id="new-card-back" rows="3" placeholder="Respuesta o definición" required></textarea>
                         </div>
                         <div class="form-actions">
-                            <button type="submit" id="btn-add-card" class="btn primary">Añadir Tarjeta</button>
+                            <button type="submit" id="btn-add-card" class="btn primary">
+                                <i class="fas fa-save"></i> Añadir Tarjeta
+                            </button>
                         </div>
                     </form>
                     
@@ -86,8 +98,12 @@
                             <textarea id="edit-card-back" rows="3" required></textarea>
                         </div>
                         <div class="form-actions">
-                            <button type="submit" id="btn-update-card" class="btn success">Actualizar</button>
-                            <button type="button" id="btn-cancel-edit-card" class="btn secondary">Cancelar</button>
+                            <button type="submit" id="btn-update-card" class="btn success">
+                                <i class="fas fa-save"></i> Actualizar
+                            </button>
+                            <button type="button" id="btn-cancel-edit-card" class="btn secondary">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -115,8 +131,12 @@
                 </select>
             </div>
             <div class="modal-actions">
-                <button id="btn-save-deck" class="btn primary">Guardar Deck</button>
-                <button class="btn secondary close-modal">Cancelar</button>
+                <button id="btn-save-deck" class="btn primary">
+                    <i class="fas fa-save"></i> Guardar Deck
+                </button>
+                <button class="btn secondary close-modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
             </div>
         </div>
     </div>
@@ -127,7 +147,9 @@
             <h2><i class="fas fa-book"></i> Seleccionar Deck para Estudiar</h2>
             <div id="study-decks-list" class="decks-list"></div>
             <div class="modal-actions">
-                <button class="btn secondary close-modal">Volver</button>
+                <button class="btn secondary close-modal">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
             </div>
         </div>
     </div>
@@ -138,7 +160,9 @@
             <h2><i class="fas fa-cog"></i> Gestionar Decks</h2>
             <div id="manage-decks-list" class="decks-list"></div>
             <div class="modal-actions">
-                <button class="btn secondary close-modal">Volver</button>
+                <button class="btn secondary close-modal">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
             </div>
         </div>
     </div>
@@ -162,9 +186,15 @@
                 </select>
             </div>
             <div class="modal-actions">
-                <button id="btn-delete-deck" class="btn danger">Eliminar Deck</button>
-                <button id="btn-save-edit-deck" class="btn success">Guardar Cambios</button>
-                <button class="btn secondary close-modal">Cancelar</button>
+                <button id="btn-delete-deck" class="btn danger">
+                    <i class="fas fa-trash"></i> Eliminar Deck
+                </button>
+                <button id="btn-save-edit-deck" class="btn success">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+                <button class="btn secondary close-modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
             </div>
         </div>
     </div>
