@@ -1,4 +1,4 @@
-// Sample initial data
+//Sample initial data
 let decks = [
     {
         id: 1,
