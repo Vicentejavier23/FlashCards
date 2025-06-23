@@ -59,56 +59,408 @@ body {
     font-style: italic;
 }
 
-/* Formulario de Tarjetas */
+.actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Botones */
+.btn {
+    padding: 0.75rem 1.25rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+    font-size: 0.9rem;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow);
+}
+
+.btn.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn.secondary {
+    background-color: var(--gray-color);
+    color: white;
+}
+
+.btn.success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.btn.info {
+    background-color: var(--info-color);
+    color: white;
+}
+
+.btn.danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.btn.warning {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.btn.small {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+}
+
+/* Vistas */
+.view {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.view.active-view {
+    display: block;
+}
+
+/* Decks */
+.decks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.deck {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.deck::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--primary-color);
+}
+
+.deck:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.deck h3 {
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.deck .deck-category {
+    display: inline-block;
+    background: var(--light-gray);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+    color: var(--dark-color);
+}
+
+.deck .deck-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--gray-color);
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+.deck-actions {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.deck-actions .btn {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+}
+
+/* Tarjetas de estudio */
+.study-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+.flashcard-container {
+    width: 100%;
+    max-width: 600px;
+    perspective: 1000px;
+}
+
+.flashcard {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s;
+    cursor: pointer;
+    margin-bottom: 2rem;
+}
+
+.flashcard.flipped {
+    transform: rotateY(180deg);
+}
+
+.flashcard-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    box-shadow: var(--box-shadow);
+    font-size: 1.5rem;
+    text-align: center;
+    overflow-y: auto;
+}
+
+.flashcard .back {
+    transform: rotateY(180deg);
+    background: var(--light-gray);
+}
+
+.study-controls {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    max-width: 600px;
+    justify-content: center;
+}
+
+/* Gestión de tarjetas */
+.cards-view {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--box-shadow);
+}
+
+.cards-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.cards-list {
+    margin-bottom: 2rem;
+}
+
+.card-item {
+    background: var(--light-gray);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+}
+
+.card-item:hover {
+    transform: translateX(5px);
+}
+
+.card-content {
+    flex: 1;
+}
+
+.card-content .card-front {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.card-content .card-back {
+    color: var(--gray-color);
+    font-size: 0.9rem;
+}
+
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.card-actions .btn {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+}
+
+#btn-show-add-card-form {
+    margin: 20px 0;
+    width: 100%;
+}
+
+.card-form-container {
+    background: var(--light-gray);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
 .card-form {
     background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
 }
 
 #add-card-form {
-    display: block; /* Asegurar que esté visible por defecto */
+    display: block;
 }
 
 #edit-card-form {
-    display: none; /* Ocultar formulario de edición inicialmente */
+    display: none;
+}
+
+.card-form h3 {
+    margin-bottom: 1rem;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--dark-color);
 }
 
 .form-group textarea {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+    min-height: 100px;
     resize: vertical;
-    min-height: 80px;
 }
 
 .form-actions {
     display: flex;
-    gap: 10px;
-    margin-top: 15px;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1rem;
 }
 
-/* Botón para mostrar/ocultar formulario */
-#btn-show-add-card-form {
-    margin: 20px 0;
-    display: block;
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--gray-color);
+}
+
+.empty-state i {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+/* Modales */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
 }
 
-/* Resto del CSS permanece igual... */
+.modal-content {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: var(--box-shadow);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal h2 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--gray-color);
+    transition: var(--transition);
+}
+
+.close-modal:hover {
+    color: var(--danger-color);
+    transform: rotate(90deg);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.decks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -119,6 +471,8 @@ body {
 
     .app-header .actions {
         margin-top: 1rem;
+        width: 100%;
+        flex-wrap: wrap;
     }
 
     .decks-grid {
@@ -126,10 +480,14 @@ body {
     }
 
     .flashcard {
-        height: auto;
+        height: 300px;
     }
-    
-    .card-form {
-        padding: 15px;
+
+    .study-controls {
+        flex-wrap: wrap;
+    }
+
+    .card-form-container {
+        padding: 1rem;
     }
 }
