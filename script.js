@@ -347,4 +347,176 @@ class FlashcardsApp {
                     <button class="btn primary btn-edit-deck" data-id="${deck.id}">
                         <i class="fas fa-edit"></i> Editar
                     </button>
-                    <button class="btn danger btn-delete-deck" data-id
+                    <button class="btn danger btn-delete-deck" data-id="${deck.id}">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </div>
+            `;
+            this.elements.manageDecksList.appendChild(deckElement);
+        });
+    }
+
+    showCardsView(deckId) {
+        const deck = this.decks.find(d => d.id === deckId);
+        if (!deck) return;
+
+        this.editingCardsDeck = deck;
+        this.elements.editingDeckName.textContent = deck.name;
+        this.elements.addCardForm.style.display = 'block';
+        this.elements.editCardForm.style.display = 'none';
+        this.renderCardsList();
+        this.showView('cards-view');
+    }
+
+    renderCardsList() {
+        if (!this.elements.cardsList || !this.editingCardsDeck) return;
+        
+        this.elements.cardsList.innerHTML = '';
+        
+        this.editingCardsDeck.cards.forEach((card, index) => {
+            const cardElement = document.createElement('div');
+            cardElement.className = 'card-item';
+            cardElement.innerHTML = `
+                <div class="card-content">
+                    <div class="card-front">${card.front}</div>
+                    <div class="card-back">${card.back}</div>
+                </div>
+                <div class="card-actions">
+                    <button class="btn warning btn-edit-card" data-index="${index}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn danger btn-delete-card" data-index="${index}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            this.elements.cardsList.appendChild(cardElement);
+        });
+    }
+
+    addCard() {
+        if (!this.editingCardsDeck) return;
+        
+        const front = this.elements.newCardFront.value.trim();
+        const back = this.elements.newCardBack.value.trim();
+        
+        if (!front || !back) {
+            alert('Por favor completa ambos lados de la tarjeta');
+            return;
+        }
+
+        if (this.editingCardsDeck.cards.length >= this.MAX_CARDS_PER_DECK) {
+            alert(`Has alcanzado el límite máximo de ${this.MAX_CARDS_PER_DECK} tarjetas por deck`);
+            return;
+        }
+        
+        this.editingCardsDeck.cards.push({ front, back });
+        this.saveDecksToLocalStorage();
+        this.renderCardsList();
+        
+        // Limpiar formulario
+        this.elements.newCardFront.value = '';
+        this.elements.newCardBack.value = '';
+        this.elements.addCardForm.style.display = 'none';
+    }
+
+    editCard(index) {
+        if (!this.editingCardsDeck || index < 0 || index >= this.editingCardsDeck.cards.length) return;
+        
+        const card = this.editingCardsDeck.cards[index];
+        this.editingCardIndex = index;
+        
+        this.elements.editCardFront.value = card.front;
+        this.elements.editCardBack.value = card.back;
+        
+        this.elements.addCardForm.style.display = 'none';
+        this.elements.editCardForm.style.display = 'block';
+    }
+
+    updateCard() {
+        if (!this.editingCardsDeck || this.editingCardIndex === null) return;
+        
+        const front = this.elements.editCardFront.value.trim();
+        const back = this.elements.editCardBack.value.trim();
+        
+        if (!front || !back) {
+            alert('Por favor completa ambos lados de la tarjeta');
+            return;
+        }
+        
+        this.editingCardsDeck.cards[this.editingCardIndex] = { front, back };
+        this.saveDecksToLocalStorage();
+        this.renderCardsList();
+        this.cancelEditCard();
+    }
+
+    cancelEditCard() {
+        this.editingCardIndex = null;
+        this.elements.editCardForm.style.display = 'none';
+        this.elements.addCardForm.style.display = 'block';
+    }
+
+    deleteCard(index) {
+        if (!this.editingCardsDeck || index < 0 || index >= this.editingCardsDeck.cards.length) return;
+        
+        if (confirm('¿Estás seguro de que quieres eliminar esta tarjeta?')) {
+            this.editingCardsDeck.cards.splice(index, 1);
+            this.saveDecksToLocalStorage();
+            this.renderCardsList();
+        }
+    }
+
+    startStudyingDeck(deckId) {
+        const deck = this.decks.find(d => d.id === deckId);
+        if (!deck || deck.cards.length === 0) return;
+
+        this.currentDeck = deck;
+        this.currentCardIndex = 0;
+        this.isFlipped = false;
+        
+        this.elements.studyDeckName.textContent = deck.name;
+        this.elements.totalCardCount.textContent = deck.cards.length;
+        this.updateStudyCard();
+        
+        this.closeAllModals();
+        this.showView('study-view');
+    }
+
+    updateStudyCard() {
+        if (!this.currentDeck || this.currentCardIndex >= this.currentDeck.cards.length) return;
+        
+        const card = this.currentDeck.cards[this.currentCardIndex];
+        this.elements.flashcardFront.textContent = card.front;
+        this.elements.flashcardBack.textContent = card.back;
+        this.elements.currentCardCount.textContent = this.currentCardIndex + 1;
+        
+        if (this.isFlipped) {
+            this.elements.flashcardElement.classList.add('flipped');
+        } else {
+            this.elements.flashcardElement.classList.remove('flipped');
+        }
+    }
+
+    flipCard() {
+        this.isFlipped = !this.isFlipped;
+        this.updateStudyCard();
+    }
+
+    nextCard() {
+        if (!this.currentDeck) return;
+        
+        this.isFlipped = false;
+        this.currentCardIndex++;
+        
+        if (this.currentCardIndex >= this.currentDeck.cards.length) {
+            this.currentCardIndex = 0;
+        }
+        
+        this.updateStudyCard();
+    }
+}
+
+// Inicializar la aplicación cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    new FlashcardsApp();
+});
