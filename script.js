@@ -61,22 +61,36 @@ class FlashcardsApp {
     }
 
     setupEventListeners() {
+        // Eventos principales
         this.safeAddEventListener(this.elements.btnNewDeck, 'click', () => this.showModal('modal-new-deck'));
         this.safeAddEventListener(this.elements.btnStudy, 'click', () => this.showModal('modal-choose-deck'));
         this.safeAddEventListener(this.elements.btnManage, 'click', () => this.showManageDecksModal());
         this.safeAddEventListener(this.elements.btnBackStudy, 'click', () => this.showView('decks-view'));
         this.safeAddEventListener(this.elements.btnBackCards, 'click', () => this.showView('decks-view'));
-        this.safeAddEventListener(this.elements.btnAddCard, 'click', () => this.addCard());
-        this.safeAddEventListener(this.elements.btnUpdateCard, 'click', () => this.updateCard());
+        
+        // Eventos de tarjetas
+        this.safeAddEventListener(this.elements.btnAddCard, 'click', (e) => {
+            e.preventDefault();
+            this.addCard();
+        });
+        this.safeAddEventListener(this.elements.btnUpdateCard, 'click', (e) => {
+            e.preventDefault();
+            this.updateCard();
+        });
         this.safeAddEventListener(this.elements.btnCancelEditCard, 'click', () => this.cancelEditCard());
+        this.safeAddEventListener(this.elements.btnShowAddCardForm, 'click', () => this.toggleAddCardForm());
+        
+        // Eventos de decks
         this.safeAddEventListener(this.elements.btnSaveDeck, 'click', () => this.saveDeck());
         this.safeAddEventListener(this.elements.btnDeleteDeck, 'click', () => this.deleteDeck());
         this.safeAddEventListener(this.elements.btnSaveEditDeck, 'click', () => this.saveEditedDeck());
+        
+        // Eventos de estudio
         this.safeAddEventListener(this.elements.flashcardElement, 'click', () => this.flipCard());
         this.safeAddEventListener(this.elements.btnShowAnswer, 'click', () => this.flipCard());
         this.safeAddEventListener(this.elements.btnNextCard, 'click', () => this.nextCard());
-        this.safeAddEventListener(this.elements.btnShowAddCardForm, 'click', () => this.toggleAddCardForm());
         
+        // Eventos de modales
         this.elements.closeModalButtons.forEach(button => {
             this.safeAddEventListener(button, 'click', () => this.closeAllModals());
         });
@@ -87,6 +101,22 @@ class FlashcardsApp {
                     this.closeAllModals();
                 }
             });
+        });
+        
+        // Evento delegado para los decks
+        this.safeAddEventListener(this.elements.decksContainer, 'click', (e) => {
+            if (e.target.closest('.btn-study-deck')) {
+                this.startStudyingDeck(e.target.closest('.btn-study-deck').dataset.id);
+            }
+            if (e.target.closest('.btn-edit-deck')) {
+                this.showEditDeckModal(e.target.closest('.btn-edit-deck').dataset.id);
+            }
+            if (e.target.closest('.btn-delete-deck')) {
+                this.confirmDeleteDeck(e.target.closest('.btn-delete-deck').dataset.id);
+            }
+            if (e.target.closest('.btn-edit-cards')) {
+                this.showCardsView(e.target.closest('.btn-edit-cards').dataset.id);
+            }
         });
     }
 
@@ -100,6 +130,7 @@ class FlashcardsApp {
         if (this.elements.addCardForm.style.display === 'none') {
             this.elements.addCardForm.style.display = 'block';
             this.elements.editCardForm.style.display = 'none';
+            this.elements.newCardFront.focus();
         } else {
             this.elements.addCardForm.style.display = 'none';
         }
@@ -109,10 +140,7 @@ class FlashcardsApp {
         document.querySelectorAll('.view').forEach(view => {
             view.classList.remove('active-view');
         });
-        const view = document.getElementById(viewId);
-        if (view) {
-            view.classList.add('active-view');
-        }
+        document.getElementById(viewId)?.classList.add('active-view');
     }
 
     showModal(modalId) {
@@ -162,34 +190,31 @@ class FlashcardsApp {
             return;
         }
         
-        this.decks.forEach((deck, index) => {
+        this.decks.forEach(deck => {
             const deckElement = document.createElement('div');
             deckElement.className = 'deck';
             deckElement.innerHTML = `
                 <div class="deck-actions">
-                    <button class="btn warning btn-edit-deck" data-id="${deck.id}"><i class="fas fa-edit"></i></button>
-                    <button class="btn danger btn-delete-deck" data-id="${deck.id}"><i class="fas fa-trash"></i></button>
+                    <button class="btn warning btn-edit-deck" data-id="${deck.id}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn primary btn-edit-cards" data-id="${deck.id}">
+                        <i class="fas fa-plus"></i> Tarjetas
+                    </button>
+                    <button class="btn danger btn-delete-deck" data-id="${deck.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
                 <h3>${deck.name}</h3>
                 <span class="deck-category">${deck.category}</span>
                 <div class="deck-info">
                     <span><i class="fas fa-layer-group"></i> ${deck.cards.length} tarjetas</span>
-                    <button class="btn small primary btn-study-deck" data-id="${deck.id}">Estudiar (${deck.cards.length})</button>
+                    <button class="btn small success btn-study-deck" data-id="${deck.id}" ${deck.cards.length === 0 ? 'disabled' : ''}>
+                        Estudiar (${deck.cards.length})
+                    </button>
                 </div>
             `;
             this.elements.decksContainer.appendChild(deckElement);
-            
-            this.safeAddEventListener(deckElement.querySelector('.btn-study-deck'), 'click', (e) => {
-                this.startStudyingDeck(e.target.dataset.id);
-            });
-            
-            this.safeAddEventListener(deckElement.querySelector('.btn-edit-deck'), 'click', (e) => {
-                this.showEditDeckModal(e.target.dataset.id);
-            });
-            
-            this.safeAddEventListener(deckElement.querySelector('.btn-delete-deck'), 'click', (e) => {
-                this.confirmDeleteDeck(e.target.dataset.id);
-            });
         });
     }
 
@@ -210,15 +235,6 @@ class FlashcardsApp {
                     </div>
                 `;
                 this.elements.studyDecksList.appendChild(deckElement);
-
-                this.safeAddEventListener(
-                    deckElement.querySelector('.btn-study-deck'),
-                    'click',
-                    (e) => {
-                        this.startStudyingDeck(e.target.dataset.id);
-                        this.closeAllModals();
-                    }
-                );
             }
         });
     }
@@ -239,7 +255,6 @@ class FlashcardsApp {
             this.saveDecksToLocalStorage();
             this.renderDecks();
             this.closeAllModals();
-
             this.elements.deckNameInput.value = '';
             this.elements.deckCategorySelect.value = 'general';
         }
@@ -306,18 +321,6 @@ class FlashcardsApp {
                 </div>
             `;
             this.elements.manageDecksList.appendChild(deckElement);
-
-            this.safeAddEventListener(
-                deckElement.querySelector('.btn-edit-deck'),
-                'click',
-                (e) => this.showEditDeckModal(e.target.dataset.id)
-            );
-
-            this.safeAddEventListener(
-                deckElement.querySelector('.btn-delete-deck'),
-                'click',
-                (e) => this.confirmDeleteDeck(e.target.dataset.id)
-            );
         });
     }
 
@@ -328,7 +331,7 @@ class FlashcardsApp {
         this.editingCardsDeck = deck;
         this.elements.editingDeckName.textContent = deck.name;
         
-        // Mostrar formulario de agregar tarjeta y ocultar el de edición
+        // Mostrar formulario de añadir y ocultar el de edición
         this.elements.addCardForm.style.display = 'block';
         this.elements.editCardForm.style.display = 'none';
         
@@ -375,20 +378,7 @@ class FlashcardsApp {
                     </button>
                 </div>
             `;
-
             this.elements.cardsList.appendChild(cardElement);
-
-            this.safeAddEventListener(
-                cardElement.querySelector('.btn-edit-card'),
-                'click',
-                (e) => this.editCard(parseInt(e.target.dataset.index))
-            );
-
-            this.safeAddEventListener(
-                cardElement.querySelector('.btn-delete-card'),
-                'click',
-                (e) => this.deleteCard(parseInt(e.target.dataset.index))
-            );
         });
     }
 
@@ -407,8 +397,6 @@ class FlashcardsApp {
             this.elements.newCardFront.value = '';
             this.elements.newCardBack.value = '';
             this.elements.newCardFront.focus();
-        } else {
-            alert('Por favor completa ambos lados de la tarjeta');
         }
     }
 
@@ -437,8 +425,6 @@ class FlashcardsApp {
             this.saveDecksToLocalStorage();
             this.renderCards();
             this.cancelEditCard();
-        } else {
-            alert('Por favor completa ambos lados de la tarjeta');
         }
     }
 
