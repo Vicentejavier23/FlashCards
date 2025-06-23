@@ -10,8 +10,8 @@
     --dark-color: #212529;
     --gray-color: #6c757d;
     --light-gray: #e9ecef;
-    --border-radius: 12px;
-    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --border-radius: 8px;
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
 }
 
@@ -30,24 +30,21 @@ body {
 }
 
 .app-container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
 /* Header */
 .app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
+    padding-bottom: 1rem;
     border-bottom: 1px solid var(--light-gray);
 }
 
 .logo-container h1 {
     color: var(--primary-dark);
-    font-size: 2rem;
+    font-size: 1.8rem;
     margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
@@ -56,21 +53,22 @@ body {
 
 .logo-container .tagline {
     color: var(--gray-color);
-    font-style: italic;
+    font-size: 0.9rem;
 }
 
 .actions {
     display: flex;
-    gap: 1rem;
+    gap: 0.8rem;
+    margin-top: 1rem;
 }
 
 /* Botones */
 .btn {
-    padding: 0.75rem 1.25rem;
+    padding: 0.6rem 1rem;
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 500;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -79,7 +77,7 @@ body {
 }
 
 .btn:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: var(--box-shadow);
 }
 
@@ -114,7 +112,7 @@ body {
 }
 
 .btn.small {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.8rem;
     font-size: 0.8rem;
 }
 
@@ -126,7 +124,7 @@ body {
 /* Vistas */
 .view {
     display: none;
-    animation: fadeIn 0.5s ease;
+    animation: fadeIn 0.3s ease;
 }
 
 .view.active-view {
@@ -136,56 +134,39 @@ body {
 /* Decks */
 .decks-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.2rem;
     margin-top: 1.5rem;
 }
 
 .deck {
     background: white;
     border-radius: var(--border-radius);
-    padding: 1.5rem;
+    padding: 1.2rem;
     box-shadow: var(--box-shadow);
     transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-}
-
-.deck::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: var(--primary-color);
+    border-top: 4px solid var(--primary-color);
 }
 
 .deck:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .deck h3 {
     color: var(--primary-dark);
     margin-bottom: 0.5rem;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
 }
 
 .deck .deck-category {
     display: inline-block;
     background: var(--light-gray);
-    padding: 0.25rem 0.75rem;
+    padding: 0.2rem 0.6rem;
     border-radius: 20px;
-    font-size: 0.75rem;
-    margin-bottom: 1rem;
+    font-size: 0.7rem;
+    margin-bottom: 0.8rem;
     color: var(--dark-color);
-}
-
-.deck-actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
 }
 
 .deck-info {
@@ -193,14 +174,27 @@ body {
     justify-content: space-between;
     align-items: center;
     color: var(--gray-color);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    margin-top: 0.8rem;
+}
+
+.deck-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.8rem;
+}
+
+.deck-actions .btn {
+    flex: 1;
+    justify-content: center;
+    padding: 0.5rem;
 }
 
 /* Vista de estudio */
 .study-view {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
 .study-header {
@@ -212,9 +206,10 @@ body {
 
 .study-progress {
     background: var(--light-gray);
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.8rem;
     border-radius: 20px;
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 0.9rem;
 }
 
 .flashcard-container {
@@ -226,10 +221,10 @@ body {
 
 .flashcard {
     width: 100%;
-    height: 400px;
+    height: 350px;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.6s;
+    transition: transform 0.5s;
     cursor: pointer;
 }
 
@@ -243,13 +238,13 @@ body {
     height: 100%;
     backface-visibility: hidden;
     border-radius: var(--border-radius);
-    padding: 2rem;
+    padding: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     background: white;
     box-shadow: var(--box-shadow);
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     text-align: center;
     overflow-y: auto;
 }
@@ -261,16 +256,16 @@ body {
 
 .study-controls {
     display: flex;
-    gap: 1rem;
+    gap: 0.8rem;
     justify-content: center;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
 }
 
 /* Gestión de tarjetas */
 .cards-view {
     background: white;
     border-radius: var(--border-radius);
-    padding: 2rem;
+    padding: 1.5rem;
     box-shadow: var(--box-shadow);
 }
 
@@ -278,20 +273,20 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--light-gray);
 }
 
 .cards-list {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .card-item {
     background: var(--light-gray);
     border-radius: var(--border-radius);
     padding: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -299,7 +294,7 @@ body {
 }
 
 .card-item:hover {
-    transform: translateX(5px);
+    transform: translateX(3px);
 }
 
 .card-content {
@@ -308,39 +303,40 @@ body {
 
 .card-content .card-front {
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
+    font-size: 0.95rem;
 }
 
 .card-content .card-back {
     color: var(--gray-color);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .card-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.4rem;
 }
 
 .card-actions .btn {
-    padding: 0.5rem;
-    font-size: 0.8rem;
+    padding: 0.4rem;
+    font-size: 0.7rem;
 }
 
 #btn-show-add-card-form {
-    margin: 20px 0;
+    margin: 1rem 0;
     width: 100%;
 }
 
 .card-form-container {
     background: var(--light-gray);
     border-radius: var(--border-radius);
-    padding: 1.5rem;
+    padding: 1.2rem;
     margin-top: 1rem;
 }
 
 .card-form {
     background: white;
-    padding: 1.5rem;
+    padding: 1.2rem;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     animation: slideUp 0.3s ease;
@@ -355,40 +351,47 @@ body {
 }
 
 .card-form h3 {
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
     color: var(--primary-dark);
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    font-size: 1rem;
 }
 
 .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
     font-weight: 600;
     color: var(--dark-color);
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ced4da;
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    transition: var(--transition);
 }
 
 .form-group textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ced4da;
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    transition: var(--transition);
-    min-height: 100px;
+    min-height: 80px;
     resize: vertical;
 }
 
 .form-actions {
     display: flex;
-    gap: 1rem;
+    gap: 0.8rem;
     justify-content: flex-end;
-    margin-top: 1rem;
+    margin-top: 0.8rem;
 }
 
 .empty-state {
@@ -400,6 +403,17 @@ body {
 .empty-state i {
     margin-bottom: 1rem;
     color: var(--primary-color);
+    font-size: 2.5rem;
+}
+
+.empty-state h3 {
+    margin-bottom: 0.5rem;
+    color: var(--dark-color);
+}
+
+.empty-state p {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
 }
 
 /* Modales */
@@ -420,9 +434,9 @@ body {
 .modal-content {
     background: white;
     border-radius: var(--border-radius);
-    padding: 2rem;
+    padding: 1.5rem;
     width: 90%;
-    max-width: 500px;
+    max-width: 450px;
     box-shadow: var(--box-shadow);
     position: relative;
     max-height: 90vh;
@@ -430,11 +444,12 @@ body {
 }
 
 .modal h2 {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
     color: var(--primary-dark);
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    font-size: 1.3rem;
 }
 
 .close-modal {
@@ -445,6 +460,8 @@ body {
     cursor: pointer;
     color: var(--gray-color);
     transition: var(--transition);
+    background: none;
+    border: none;
 }
 
 .close-modal:hover {
@@ -455,14 +472,15 @@ body {
 .modal-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 1.5rem;
+    gap: 0.8rem;
+    margin-top: 1.2rem;
 }
 
 .decks-list {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.8rem;
+    margin-top: 1rem;
 }
 
 /* Animaciones */
@@ -472,27 +490,14 @@ body {
 }
 
 @keyframes slideUp {
-    from { transform: translateY(20px); opacity: 0; }
+    from { transform: translateY(15px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .app-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .app-header .actions {
-        margin-top: 1rem;
-        width: 100%;
-        flex-wrap: wrap;
+    .app-container {
+        padding: 1rem;
     }
 
     .decks-grid {
@@ -507,14 +512,10 @@ body {
         flex-wrap: wrap;
     }
 
-    .card-form-container {
-        padding: 1rem;
-    }
-    
     .deck-actions {
         flex-direction: column;
     }
-    
+
     .modal-actions {
         flex-direction: column;
     }
@@ -522,4 +523,4 @@ body {
     .modal-actions .btn {
         width: 100%;
     }
-} 
+}
