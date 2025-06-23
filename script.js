@@ -34,6 +34,9 @@ class FlashcardsApp {
             editDeckName: document.getElementById('edit-deck-name'),
             editDeckCategory: document.getElementById('edit-deck-category'),
             editingDeckName: document.getElementById('editing-deck-name'),
+            studyDeckName: document.getElementById('study-deck-name'),
+            currentCardCount: document.getElementById('current-card-count'),
+            totalCardCount: document.getElementById('total-card-count'),
             newCardFront: document.getElementById('new-card-front'),
             newCardBack: document.getElementById('new-card-back'),
             editCardFront: document.getElementById('edit-card-front'),
@@ -105,9 +108,6 @@ class FlashcardsApp {
         
         // Eventos delegados para los decks
         this.safeAddEventListener(this.elements.decksContainer, 'click', (e) => {
-            const deckElement = e.target.closest('.deck');
-            if (!deckElement) return;
-            
             if (e.target.closest('.btn-study-deck')) {
                 this.startStudyingDeck(e.target.closest('.btn-study-deck').dataset.id);
             }
@@ -119,6 +119,16 @@ class FlashcardsApp {
             }
             if (e.target.closest('.btn-edit-cards')) {
                 this.showCardsView(e.target.closest('.btn-edit-cards').dataset.id);
+            }
+        });
+        
+        // Eventos delegados para las tarjetas
+        this.safeAddEventListener(this.elements.cardsList, 'click', (e) => {
+            if (e.target.closest('.btn-edit-card')) {
+                this.editCard(parseInt(e.target.closest('.btn-edit-card').dataset.index));
+            }
+            if (e.target.closest('.btn-delete-card')) {
+                this.deleteCard(parseInt(e.target.closest('.btn-delete-card').dataset.index));
             }
         });
     }
@@ -199,13 +209,13 @@ class FlashcardsApp {
             deckElement.innerHTML = `
                 <div class="deck-actions">
                     <button class="btn warning btn-edit-deck" data-id="${deck.id}">
-                        <i class="fas fa-edit"></i>
+                        <i class="fas fa-edit"></i> Editar
                     </button>
                     <button class="btn primary btn-edit-cards" data-id="${deck.id}">
                         <i class="fas fa-plus"></i> Tarjetas
                     </button>
                     <button class="btn danger btn-delete-deck" data-id="${deck.id}">
-                        <i class="fas fa-trash"></i>
+                        <i class="fas fa-trash"></i> Eliminar
                     </button>
                 </div>
                 <h3>${deck.name}</h3>
@@ -213,7 +223,7 @@ class FlashcardsApp {
                 <div class="deck-info">
                     <span><i class="fas fa-layer-group"></i> ${deck.cards.length} tarjetas</span>
                     <button class="btn small success btn-study-deck" data-id="${deck.id}" ${deck.cards.length === 0 ? 'disabled' : ''}>
-                        Estudiar (${deck.cards.length})
+                        <i class="fas fa-book"></i> Estudiar (${deck.cards.length})
                     </button>
                 </div>
             `;
@@ -233,8 +243,10 @@ class FlashcardsApp {
                     <h3>${deck.name}</h3>
                     <span class="deck-category">${deck.category}</span>
                     <div class="deck-info">
-                        <span>${deck.cards.length} tarjetas</span>
-                        <button class="btn primary btn-study-deck" data-id="${deck.id}">Estudiar (${deck.cards.length})</button>
+                        <span><i class="fas fa-layer-group"></i> ${deck.cards.length} tarjetas</span>
+                        <button class="btn primary btn-study-deck" data-id="${deck.id}">
+                            <i class="fas fa-book"></i> Estudiar (${deck.cards.length})
+                        </button>
                     </div>
                 `;
                 this.elements.studyDecksList.appendChild(deckElement);
@@ -324,9 +336,13 @@ class FlashcardsApp {
                 <h3>${deck.name}</h3>
                 <span class="deck-category">${deck.category}</span>
                 <div class="deck-info">
-                    <span>${deck.cards.length} tarjetas</span>
-                    <button class="btn primary btn-edit-deck" data-id="${deck.id}">Editar</button>
-                    <button class="btn danger btn-delete-deck" data-id="${deck.id}">Eliminar</button>
+                    <span><i class="fas fa-layer-group"></i> ${deck.cards.length} tarjetas</span>
+                    <button class="btn primary btn-edit-deck" data-id="${deck.id}">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <button class="btn danger btn-delete-deck" data-id="${deck.id}">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
                 </div>
             `;
             this.elements.manageDecksList.appendChild(deckElement);
@@ -380,27 +396,14 @@ class FlashcardsApp {
                 </div>
                 <div class="card-actions">
                     <button class="btn warning btn-edit-card" data-index="${index}">
-                        <i class="fas fa-edit"></i>
+                        <i class="fas fa-edit"></i> Editar
                     </button>
                     <button class="btn danger btn-delete-card" data-index="${index}">
-                        <i class="fas fa-trash"></i>
+                        <i class="fas fa-trash"></i> Eliminar
                     </button>
                 </div>
             `;
             this.elements.cardsList.appendChild(cardElement);
-
-            // Agregar eventos a los botones de la tarjeta
-            this.safeAddEventListener(
-                cardElement.querySelector('.btn-edit-card'),
-                'click',
-                (e) => this.editCard(parseInt(e.target.closest('button').dataset.index))
-            );
-
-            this.safeAddEventListener(
-                cardElement.querySelector('.btn-delete-card'),
-                'click',
-                (e) => this.deleteCard(parseInt(e.target.closest('button').dataset.index))
-            );
         });
     }
 
@@ -431,7 +434,7 @@ class FlashcardsApp {
         
         // Restaurar botón después de 1.5 segundos
         setTimeout(() => {
-            addButton.innerHTML = 'Añadir Tarjeta';
+            addButton.innerHTML = '<i class="fas fa-save"></i> Añadir Tarjeta';
             addButton.classList.remove('success');
         }, 1500);
     }
@@ -470,7 +473,7 @@ class FlashcardsApp {
         const updateButton = this.elements.btnUpdateCard;
         updateButton.innerHTML = '<i class="fas fa-check"></i> Actualizado!';
         setTimeout(() => {
-            updateButton.innerHTML = 'Actualizar';
+            updateButton.innerHTML = '<i class="fas fa-save"></i> Actualizar';
         }, 1500);
     }
 
@@ -504,6 +507,12 @@ class FlashcardsApp {
         this.currentDeck = deck;
         this.currentCardIndex = 0;
         this.isFlipped = false;
+        
+        // Actualizar información del deck
+        this.elements.studyDeckName.textContent = deck.name;
+        this.elements.currentCardCount.textContent = '1';
+        this.elements.totalCardCount.textContent = deck.cards.length.toString();
+        
         this.showCard();
         this.showView('study-view');
     }
@@ -514,6 +523,7 @@ class FlashcardsApp {
         const card = this.currentDeck.cards[this.currentCardIndex];
         this.elements.flashcardFront.textContent = card.front;
         this.elements.flashcardBack.textContent = card.back;
+        this.elements.currentCardCount.textContent = (this.currentCardIndex + 1).toString();
 
         if (this.isFlipped) {
             this.elements.flashcardElement.classList.remove('flipped');
@@ -524,6 +534,13 @@ class FlashcardsApp {
     flipCard() {
         this.elements.flashcardElement.classList.toggle('flipped');
         this.isFlipped = !this.isFlipped;
+        
+        // Cambiar texto del botón según el estado
+        if (this.isFlipped) {
+            this.elements.btnShowAnswer.innerHTML = '<i class="fas fa-eye-slash"></i> Ocultar Respuesta';
+        } else {
+            this.elements.btnShowAnswer.innerHTML = '<i class="fas fa-eye"></i> Mostrar Respuesta';
+        }
     }
 
     nextCard() {
@@ -532,7 +549,6 @@ class FlashcardsApp {
         this.currentCardIndex++;
         if (this.currentCardIndex >= this.currentDeck.cards.length) {
             this.currentCardIndex = 0;
-            alert('¡Has completado todas las tarjetas! Comenzando de nuevo.');
         }
 
         this.showCard();
