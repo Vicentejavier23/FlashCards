@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcard App 2025</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -26,16 +26,20 @@
                 </button>
             </div>
         </header>
+
         <main class="app-main">
+            <!-- Vista principal de decks -->
             <div id="decks-view" class="view active-view">
                 <h2>Tus Decks de Flashcards</h2>
                 <div id="decks-container" class="decks-grid"></div>
             </div>
+
+            <!-- Vista de estudio -->
             <div id="study-view" class="view">
                 <div class="study-header">
                     <h2 id="study-deck-name"></h2>
                     <div class="study-progress">
-                        <span id="current-card-count">1</span> / <span id="total-card-count">0</span>
+                        <span id="current-card-count">1</span>/<span id="total-card-count">0</span>
                     </div>
                 </div>
                 <div class="flashcard-container">
@@ -56,6 +60,8 @@
                     </button>
                 </div>
             </div>
+
+            <!-- Vista de gestión de tarjetas -->
             <div id="cards-view" class="view">
                 <div class="cards-header">
                     <h2 id="editing-deck-name"></h2>
@@ -71,7 +77,7 @@
                 
                 <div class="card-form-container">
                     <form id="add-card-form" class="card-form">
-                        <h3><i class="fas fa-plus-circle"></i> Añadir Nueva Tarjeta</h3>
+                        <h3><i class="fas fa-plus-circle"></i> Nueva Tarjeta</h3>
                         <div class="form-group">
                             <label for="new-card-front">Frente:</label>
                             <textarea id="new-card-front" rows="3" placeholder="Pregunta o concepto" required></textarea>
@@ -82,7 +88,7 @@
                         </div>
                         <div class="form-actions">
                             <button type="submit" id="btn-add-card" class="btn primary">
-                                <i class="fas fa-save"></i> Añadir Tarjeta
+                                <i class="fas fa-save"></i> Guardar
                             </button>
                         </div>
                     </form>
@@ -115,10 +121,10 @@
     <div id="modal-new-deck" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
-            <h2><i class="fas fa-layer-group"></i> Crear Nuevo Deck</h2>
+            <h2><i class="fas fa-layer-group"></i> Nuevo Deck</h2>
             <div class="form-group">
-                <label for="deck-name">Nombre del Deck:</label>
-                <input type="text" id="deck-name" placeholder="Ej: Vocabulario Español">
+                <label for="deck-name">Nombre:</label>
+                <input type="text" id="deck-name" placeholder="Ej: Vocabulario Español" maxlength="30">
             </div>
             <div class="form-group">
                 <label for="deck-category">Categoría:</label>
@@ -132,7 +138,7 @@
             </div>
             <div class="modal-actions">
                 <button id="btn-save-deck" class="btn primary">
-                    <i class="fas fa-save"></i> Guardar Deck
+                    <i class="fas fa-save"></i> Guardar
                 </button>
                 <button class="btn secondary close-modal">
                     <i class="fas fa-times"></i> Cancelar
@@ -144,7 +150,7 @@
     <div id="modal-choose-deck" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
-            <h2><i class="fas fa-book"></i> Seleccionar Deck para Estudiar</h2>
+            <h2><i class="fas fa-book"></i> Seleccionar Deck</h2>
             <div id="study-decks-list" class="decks-list"></div>
             <div class="modal-actions">
                 <button class="btn secondary close-modal">
@@ -173,7 +179,7 @@
             <h2><i class="fas fa-edit"></i> Editar Deck</h2>
             <div class="form-group">
                 <label for="edit-deck-name">Nombre:</label>
-                <input type="text" id="edit-deck-name">
+                <input type="text" id="edit-deck-name" maxlength="30">
             </div>
             <div class="form-group">
                 <label for="edit-deck-category">Categoría:</label>
@@ -187,10 +193,10 @@
             </div>
             <div class="modal-actions">
                 <button id="btn-delete-deck" class="btn danger">
-                    <i class="fas fa-trash"></i> Eliminar Deck
+                    <i class="fas fa-trash"></i> Eliminar
                 </button>
                 <button id="btn-save-edit-deck" class="btn success">
-                    <i class="fas fa-save"></i> Guardar Cambios
+                    <i class="fas fa-save"></i> Guardar
                 </button>
                 <button class="btn secondary close-modal">
                     <i class="fas fa-times"></i> Cancelar
