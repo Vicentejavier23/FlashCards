@@ -118,6 +118,11 @@ body {
     font-size: 0.8rem;
 }
 
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 /* Vistas */
 .view {
     display: none;
@@ -177,26 +182,18 @@ body {
     color: var(--dark-color);
 }
 
-.deck .deck-info {
+.deck-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.deck-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: var(--gray-color);
     font-size: 0.9rem;
-    margin-top: 1rem;
-}
-
-.deck-actions {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    display: flex;
-    gap: 0.5rem;
-}
-
-.deck-actions .btn {
-    padding: 0.5rem;
-    font-size: 0.8rem;
 }
 
 /* Tarjetas de estudio */
@@ -219,7 +216,7 @@ body {
     height: 400px;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.8s;
+    transition: transform 0.6s;
     cursor: pointer;
     margin-bottom: 2rem;
 }
@@ -335,6 +332,7 @@ body {
     padding: 1.5rem;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
+    animation: slideUp 0.3s ease;
 }
 
 #add-card-form {
@@ -462,6 +460,17 @@ body {
     to { opacity: 1; }
 }
 
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .app-header {
@@ -489,5 +498,9 @@ body {
 
     .card-form-container {
         padding: 1rem;
+    }
+    
+    .deck-actions {
+        flex-direction: column;
     }
 }
