@@ -7,6 +7,8 @@ class FlashcardsApp {
         this.editingCardsDeck = null;
         this.editingCardIndex = null;
         this.isFlipped = false;
+        this.MAX_DECKS = 10;
+        this.MAX_CARDS_PER_DECK = 20;
 
         this.initializeElements();
         this.setupEventListeners();
@@ -191,7 +193,7 @@ class FlashcardsApp {
         if (this.decks.length === 0) {
             this.elements.decksContainer.innerHTML = `
                 <div class="empty-state">
-                    <i class="fas fa-layer-group fa-3x"></i>
+                    <i class="fas fa-layer-group"></i>
                     <h3>No tienes ningún deck aún</h3>
                     <p>Crea tu primer deck para comenzar</p>
                     <button id="btn-new-deck-empty" class="btn primary">Crear Deck</button>
@@ -207,6 +209,14 @@ class FlashcardsApp {
             const deckElement = document.createElement('div');
             deckElement.className = 'deck';
             deckElement.innerHTML = `
+                <h3>${deck.name}</h3>
+                <span class="deck-category">${deck.category}</span>
+                <div class="deck-info">
+                    <span><i class="fas fa-layer-group"></i> ${deck.cards.length} ${deck.cards.length === 1 ? 'tarjeta' : 'tarjetas'}</span>
+                    <button class="btn small success btn-study-deck" data-id="${deck.id}" ${deck.cards.length === 0 ? 'disabled' : ''}>
+                        <i class="fas fa-book"></i> Estudiar (${deck.cards.length})
+                    </button>
+                </div>
                 <div class="deck-actions">
                     <button class="btn warning btn-edit-deck" data-id="${deck.id}">
                         <i class="fas fa-edit"></i> Editar
@@ -216,14 +226,6 @@ class FlashcardsApp {
                     </button>
                     <button class="btn danger btn-delete-deck" data-id="${deck.id}">
                         <i class="fas fa-trash"></i> Eliminar
-                    </button>
-                </div>
-                <h3>${deck.name}</h3>
-                <span class="deck-category">${deck.category}</span>
-                <div class="deck-info">
-                    <span><i class="fas fa-layer-group"></i> ${deck.cards.length} tarjetas</span>
-                    <button class="btn small success btn-study-deck" data-id="${deck.id}" ${deck.cards.length === 0 ? 'disabled' : ''}>
-                        <i class="fas fa-book"></i> Estudiar (${deck.cards.length})
                     </button>
                 </div>
             `;
@@ -260,6 +262,11 @@ class FlashcardsApp {
 
         if (!name) {
             alert('Por favor ingresa un nombre para el deck');
+            return;
+        }
+
+        if (this.decks.length >= this.MAX_DECKS) {
+            alert(`Has alcanzado el límite máximo de ${this.MAX_DECKS} decks`);
             return;
         }
 
@@ -340,22 +347,4 @@ class FlashcardsApp {
                     <button class="btn primary btn-edit-deck" data-id="${deck.id}">
                         <i class="fas fa-edit"></i> Editar
                     </button>
-                    <button class="btn danger btn-delete-deck" data-id="${deck.id}">
-                        <i class="fas fa-trash"></i> Eliminar
-                    </button>
-                </div>
-            `;
-            this.elements.manageDecksList.appendChild(deckElement);
-        });
-    }
-
-    showCardsView(deckId) {
-        const deck = this.decks.find(d => d.id === deckId);
-        if (!deck) return;
-
-        this.editingCardsDeck = deck;
-        this.elements.editingDeckName.textContent = deck.name;
-        
-        // Mostrar formulario de añadir y ocultar el de edición
-        this.elements.addCardForm.style.display = 'block';
-        this.elements.editCardForm
+                    <button class="btn danger btn-delete-deck" data-id
